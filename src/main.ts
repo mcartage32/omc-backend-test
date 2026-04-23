@@ -14,8 +14,10 @@ async function bootstrap() {
   app.enableCors();
   // Configuramos Swagger para la documentación de la API
   const config = new DocumentBuilder()
-    .setTitle('Lappiz Test API')
-    .setDescription('API para el test de Lappiz')
+    .setTitle('Leads API OMC Test')
+    .setDescription(
+      'API para la gestión de leads con autenticación JWT y resumen AI',
+    )
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);
