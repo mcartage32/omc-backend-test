@@ -40,8 +40,8 @@ Incluye:
 ### Pasos
 
 ```bash
-git clone <repo>
-cd <repo>
+git clone https://github.com/mcartage32/omc-backend-test.git
+cd omc-backend-test
 bun install
 ```
 
@@ -49,19 +49,19 @@ bun install
 
 ## 4. Variables de entorno
 
-Crear archivo `.env` basado en `.env.example`:
+Crear archivo `.env` basado en `.env.example`, este ultimo archivo `.env.example` con valores de referencia para facilitar la configuración y ejecución rápida del proyecto en entornos locales.
+
+⚠️ Nota: Los valores proporcionados son únicamente para desarrollo y pueden ser ajustados según la configuración del entorno.
 
 ```env
-PORT=3000
-
-DB_HOST=localhost
 DB_PORT=5432
-DB_USER=postgres
-DB_PASSWORD=postgres
-DB_NAME=leads_db
-
-JWT_SECRET=secret
-OPENAI_API_KEY=your_key_here
+DB_USER=root
+DB_PASSWORD=root
+DB_NAME=postgres
+DB_HOST=localhost
+JWT_SECRET=clave_para_prueba_omc
+PORT=3000
+OPENAI_API_KEY=false_api_key
 ```
 
 ---
@@ -71,7 +71,7 @@ OPENAI_API_KEY=your_key_here
 Crear base de datos en PostgreSQL:
 
 ```sql
-CREATE DATABASE leads_db;
+CREATE DATABASE postgres;
 ```
 
 ---
@@ -79,8 +79,14 @@ CREATE DATABASE leads_db;
 ## 6. Migraciones y Seed
 
 ```bash
+bun run migration:generate
 bun run migration:run
 bun run seed
+```
+Tambien se puede ejecutar la migraciones y la semilla en un solo comando
+
+```bash
+bun run db:setup
 ```
 
 ---
