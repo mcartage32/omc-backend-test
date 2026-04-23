@@ -79,7 +79,6 @@ CREATE DATABASE postgres;
 ## 6. Migraciones y Seed
 
 ```bash
-bun run migration:generate
 bun run migration:run
 bun run seed
 ```
@@ -88,6 +87,12 @@ Tambien se puede ejecutar la migraciones y la semilla en un solo comando
 ```bash
 bun run db:setup
 ```
+
+Nota: Si necesitas crear las migraciones hazlo con
+```bash
+bun run migration:generate
+```
+
 
 ---
 
