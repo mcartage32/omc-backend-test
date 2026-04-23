@@ -12,10 +12,15 @@ import {
 import { LeadsService } from './leads.service';
 import { CreateLeadDto, GetLeadsDto } from './leads.dto';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { AiService } from '../ai/ai.service';
+import { AiSummaryDto } from '../ai/ai-summary.dto';
 
 @Controller('leads')
 export class LeadsController {
-  constructor(private readonly service: LeadsService) {}
+  constructor(
+    private readonly service: LeadsService,
+    private readonly aiService: AiService,
+  ) {}
 
   @UseGuards(JwtAuthGuard)
   @Post()
@@ -51,5 +56,14 @@ export class LeadsController {
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.service.remove(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('ai/summary')
+  async getSummary(@Body() query: AiSummaryDto) {
+    const leads = await this.service.getLeadsForAI(query);
+    const summary = await this.aiService.generateSummary(leads);
+
+    return { summary };
   }
 }

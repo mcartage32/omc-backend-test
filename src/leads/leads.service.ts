@@ -8,6 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, Between } from 'typeorm';
 import { Lead } from './leads.entity';
 import { CreateLeadDto, GetLeadsDto } from './leads.dto';
+import { AiSummaryDto } from '../ai/ai-summary.dto';
 
 @Injectable()
 export class LeadsService {
@@ -125,5 +126,25 @@ export class LeadsService {
       promedioPresupuesto: Number(promedio.avg) || 0,
       ultimos7dias,
     };
+  }
+
+  async getLeadsForAI(query: AiSummaryDto = {}) {
+    const where: any = {};
+
+    if (query.fuente) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      where.fuente = query.fuente;
+    }
+
+    if (query.startDate && query.endDate) {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      where.createdAt = Between(
+        new Date(query.startDate),
+        new Date(query.endDate),
+      );
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    return this.repo.find({ where });
   }
 }
